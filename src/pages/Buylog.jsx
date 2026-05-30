@@ -29,7 +29,7 @@ function Buylog() {
             const formData = new FormData()
             formData.append('file', image)
 
-            const uploadRes = await fetch('http://localhost:8080/api/images/upload', {
+            const uploadRes = await fetch('https://fe-be-api.com/api/images/upload', {
                 method: 'POST',
                 body: formData,
             })
@@ -47,7 +47,7 @@ function Buylog() {
             analyzeForm.append('image', image)
             analyzeForm.append('imageUrl', imageUrl)
 
-            const analyzeRes = await fetch('http://localhost:8080/api/home', {
+            const analyzeRes = await fetch('https://fe-be-api.com/api/home', {
                 method: 'POST',
                 headers: { 'X-Guest-Id': getGuestId() },
                 body: analyzeForm,
@@ -61,9 +61,7 @@ function Buylog() {
                 return
             }
 
-            // TODO: 팀원 경로 확인 후 주석 해제
-            // navigate('/ai-result', { state: { result: analyzeData.data, imageUrl } })
-            console.log('AI 분석 결과:', analyzeData)
+            navigate('/analyze', { state: { result: analyzeData.data, imageUrl } })
 
         } catch (e) {
             alert('서버 연결에 실패했어요. 잠시 후 다시 시도해주세요')

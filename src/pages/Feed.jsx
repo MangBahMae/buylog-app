@@ -12,11 +12,11 @@ function Feed() {
     const [report, setReport] = useState(null)
 
     useEffect(() => {
-        fetchWithGuest('http://localhost:8080/api/spendings/todays')
+        fetchWithGuest('https://fe-be-api.com/api/spendings/todays')
             .then(res => res.json())
             .then(data => setTotalAmount(data.data.totalAmount))
 
-        fetchWithGuest('http://localhost:8080/api/report')
+        fetchWithGuest('https://fe-be-api.com/api/report')
             .then(res => res.json())
             .then(data => setReport(data.data))
     }, [])

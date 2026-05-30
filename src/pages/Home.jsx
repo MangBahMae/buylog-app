@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import svg1 from "../assets/1.svg";
 import svg3 from "../assets/3.svg";
 import svg4 from "../assets/4.svg";
@@ -19,13 +20,18 @@ import './Home.css'
 
 function Home() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/feed')
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [navigate])
+
   return (
-    <div 
-    className="phone-frame"
-    onClick={() => navigate("/analyze")}>
+    <div className="phone-frame">
       <div className="top-bar">
         <span className="top-time">9:41</span>
-
         <div className="top-icons">
           <span>●●●</span>
           <span>⌁</span>
@@ -34,15 +40,10 @@ function Home() {
       </div>
 
       <div className="second-page">
-        {/* 배경 원들 */}
         <img className="svg1" src={svg1} alt="circle dashed" />
         <img className="svg3" src={svg3} alt="circle pink" />
         <img className="svg4" src={svg4} alt="circle white" />
-
-        {/* 중앙 원 */}
         <img className="svg5" src={svg5} alt="" />
-
-        {/* 주변 요소 */}
         <img className="svg6" src={svg6} alt="" />
         <img className="svg7" src={svg7} alt="" />
         <img className="svg8" src={svg8} alt="" />
@@ -54,8 +55,6 @@ function Home() {
         <img className="svg14" src={svg14} alt="" />
         <img className="svg15" src={svg15} alt="" />
         <img className="svg16" src={svg16} alt="" />
-
-        {/* 하단 문구 */}
         <img className="svg17" src={svg17} alt="오늘의 소비를 사진으로 기록해보세요" />
       </div>
 

@@ -85,7 +85,7 @@ function Result() {
         </div>
       </div>
 
-      <button className="result-back" onClick={() => navigate("/home")}>
+      <button className="result-back" onClick={() => navigate("/buylog")}>
         <ChevronLeft size={24} />
       </button>
 

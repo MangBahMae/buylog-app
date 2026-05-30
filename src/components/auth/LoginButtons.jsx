@@ -12,7 +12,7 @@ function LoginButtons() {
             const guestId = crypto.randomUUID()  // UUID 생성
             localStorage.setItem('guestId', guestId)  // 저장
         }
-        navigate('/feed')  // feed로 이동
+        navigate('/home')  // home(로딩창)으로 이동
     }
 
     return (
