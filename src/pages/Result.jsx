@@ -1,13 +1,15 @@
 import './Result.css'
 import { useState } from "react";
 import { ChevronLeft, MapPin } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import bgImage from "../assets/background.jpeg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Result() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [selectedEmotions, setSelectedEmotions] = useState([]);
+  const { result, imageUrl } = location.state || {};
+
+  const [emotionTag, setEmotionTag] = useState("");
   const [sheetY, setSheetY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startY, setStartY] = useState(0);
@@ -23,11 +25,7 @@ function Result() {
   ];
 
   const toggleEmotion = (emotion) => {
-    if (selectedEmotions.includes(emotion)) {
-      setSelectedEmotions(selectedEmotions.filter((item) => item !== emotion));
-    } else {
-      setSelectedEmotions([...selectedEmotions, emotion]);
-    }
+    setEmotionTag(emotionTag === emotion ? "" : emotion);
   };
 
   const handleDragStart = (clientY) => {
@@ -59,6 +57,37 @@ function Result() {
     }
   };
 
+  const handleSave = async () => {
+    const guestId = localStorage.getItem('guestId');
+    try {
+      const res = await fetch('https://fe-be-api.com/api/spendings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Guest-Id': guestId,
+        },
+        body: JSON.stringify({
+          imageUrl,
+          itemName: result.itemName,
+          category: result.category,
+          amount: result.amount,
+          purchaseDate: result.purchaseDate,
+          emotionTag,
+          satisfactionLevel: '잘 샀다',
+          aiConfidence: result.aiConfidence,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        navigate('/feed');
+      } else {
+        alert(data.error?.message || '저장에 실패했습니다.');
+      }
+    } catch (e) {
+      alert('저장에 실패했습니다.');
+    }
+  };
+
   return (
     <div
       className="phone-frame result-page"
@@ -70,7 +99,7 @@ function Result() {
     >
       <div
         className="result-bg"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{ backgroundImage: `url(${imageUrl})` }}
       ></div>
 
       <div className="result-overlay"></div>
@@ -95,12 +124,16 @@ function Result() {
       </div>
 
       <div className="result-info">
-        <input className="product-input" placeholder="상품명 입력" />
-        <input className="category-input" placeholder="카테고리 입력" />
+        <input className="product-input" value={result?.itemName || ""} readOnly />
+        <input className="category-input" value={result?.category || ""} readOnly />
 
         <div className="price-box">
-          <div className="percent-circle">80%</div>
-          <input className="price-input" defaultValue="금액 18,000원" />
+          <div className="percent-circle">{result?.aiConfidence ?? 80}%</div>
+          <input
+            className="price-input"
+            value={result?.amount != null ? `금액 ${Number(result.amount).toLocaleString()}원` : ""}
+            readOnly
+          />
         </div>
       </div>
 
@@ -134,7 +167,7 @@ function Result() {
                 key={emotion}
                 type="button"
                 className={
-                  selectedEmotions.includes(emotion)
+                  emotionTag === emotion
                     ? "emotion-button selected"
                     : "emotion-button"
                 }
@@ -144,6 +177,10 @@ function Result() {
               </button>
             ))}
           </div>
+
+          <button className="login-btn primary" onClick={handleSave}>
+            저장
+          </button>
         </div>
       </div>
     </div>
