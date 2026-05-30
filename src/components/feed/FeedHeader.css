@@ -2,9 +2,9 @@
     width: 100%;
     height: 92px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 20px 16px 20px;
     background-color: #FDF7FD;
     position: relative;
     box-sizing: border-box;
@@ -20,6 +20,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    top: 25px;
 }
 
 .feed-header__back,

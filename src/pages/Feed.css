@@ -17,7 +17,7 @@
 }
 
 .feed-page__today {
-    margin-top: 16px;
+    margin-top: -16px;
     margin-bottom: 28px;
 }
 
@@ -26,6 +26,6 @@
 }
 
 .feed-page__barchart {
-    margin-top: 32px;
+    margin-top: 14px;
     padding-bottom: 70px;
 }

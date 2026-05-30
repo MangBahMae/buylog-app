@@ -17,7 +17,7 @@ function EmotionChart({ report }) {
                         data={data}
                         cx={75}
                         cy={75}
-                        innerRadius={50}
+                        innerRadius={60}
                         outerRadius={75}
                         dataKey="value"
                         strokeWidth={0}
